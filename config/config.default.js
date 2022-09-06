@@ -37,6 +37,10 @@ module.exports = appInfo => {
     agent: false
   }
 
+  config.jwt = {
+    secret: 'Nick'
+  }
+
 
   // add your user config here
   const userConfig = {

@@ -6,6 +6,7 @@ class UserService extends Service {
   async getUserByName(username) { 
     const { app } = this;
     try {
+      console.log(username, '---username')
       const result = await app.mysql.get('user', { username });
       return result
     } catch (err) { 
