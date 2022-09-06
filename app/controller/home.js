@@ -6,11 +6,8 @@ class HomeController extends Controller {
   // 从service取数据
   async index() {
     const { ctx } = this;
-    const { title, content } = await ctx.service.home.user();
-    ctx.body = {
-      title,
-      content
-    };
+    const result = await ctx.service.home.user();
+    ctx.body = result
   }
   // 从query取数据
   async list() { 
@@ -26,15 +23,45 @@ class HomeController extends Controller {
       title: '很遗憾'
     })
   }
-  // post请求
-  async add() { 
+  // 新增用户
+  async addUser() { 
     const { ctx } = this;
-    console.log(ctx.request.body, 'add--请求参数')
-    const {
-      title
-    } = ctx.request.body;
-    ctx.body = {
-      title: '这是' + title
+    const userInfo = ctx.request.body;
+    try {
+      const result = await ctx.service.home.addUser(userInfo);
+      console.log(result, '添加用户执行结果');
+      ctx.body = {
+        code: 200,
+        data: result.insertId,
+        message: '添加成功'
+      }
+    } catch (error) { 
+      ctx.body = {
+        code: 9999,
+        data: null,
+        message: '添加失败'
+      }
+    }
+  }
+
+  // 编辑用户
+  async editUser() { 
+    const { ctx } = this;
+    const userInfo = ctx.request.body;
+    try {
+      const result = await ctx.service.home.editUser(userInfo);
+      console.log(result, '编辑用户执行结果');
+      ctx.body = {
+        code: 200,
+        data: null,
+        message: '编辑成功'
+      }
+    } catch (error) { 
+      ctx.body = {
+        data: null,
+        code: 9999,
+        message: '编辑失败'
+      }
     }
   }
 }

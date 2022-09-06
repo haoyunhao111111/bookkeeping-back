@@ -24,6 +24,18 @@ module.exports = appInfo => {
   config.view = {
     mapping: {'.html': 'ejs'}
   }
+  /** 配置mysql链接 */
+  config.mysql = {
+    client: {
+      host: '81.70.63.38',
+      port: '3306',
+      user: 'root',
+      password: 'Hyh123456.',
+      database: 'cost_server'
+    },
+    app: true,
+    agent: false
+  }
 
 
   // add your user config here

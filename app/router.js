@@ -8,5 +8,6 @@ module.exports = app => {
   router.get('/', controller.home.index);
   router.get('/list/:page/:size', controller.home.list);
   router.get('/getTitle', controller.home.getTitle);
-  router.post('/add', controller.home.add);
+  router.post('/addUser', controller.home.addUser);
+  router.post('/editUser', controller.home.editUser)
 };
