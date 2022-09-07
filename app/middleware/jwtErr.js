@@ -1,6 +1,7 @@
 module.exports = (secret) => {
   return async function jwtErr(ctx, next) {
     const token = ctx.request.header.authorization;
+    console.log(token, 'token----')
     let decode;
     if(token != 'null' && token) {
       try{

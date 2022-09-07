@@ -8,5 +8,8 @@ module.exports = app => {
   const _jwt = middleware.jwtErr(app.config.jwt.secret)
   router.post('/api/user/register', controller.user.register);
   router.post('/api/user/login', controller.user.login);
-  router.post('/api/user/test', _jwt,controller.user.test);
+  router.post('/api/user/test', _jwt, controller.user.test);
+  router.post('/api/user/getUserInfo', _jwt, controller.user.getUserInfo);
+  router.post('/api/user/editUserInfo', _jwt, controller.user.editUserInfo);
+  router.post('/api/upload', _jwt, controller.upload.upload);
 };

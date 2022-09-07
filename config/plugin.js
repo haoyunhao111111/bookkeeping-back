@@ -13,5 +13,9 @@ module.exports = {
   jwt: {
     enable: true,
     package: 'egg-jwt' // npm i egg-jwt -S  用户鉴权
-  }
+  },
+  cors: { // npm i egg-cors -S  解决跨域问题
+    enable: true,
+    package: 'egg-cors',
+  },
 };

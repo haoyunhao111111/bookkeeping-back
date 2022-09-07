@@ -54,9 +54,7 @@ class UserController extends Controller {
     const {
       username, password
     } = ctx.request.body;
-    console.log(username, password, '----')
     const userInfo = await ctx.service.user.getUserByName(username);
-    console.log(userInfo, '-----userInfo')
     if(!userInfo || !userInfo.id) {
       ctx.body = {
         code: 9999,
@@ -102,6 +100,56 @@ class UserController extends Controller {
     }
   }
 
+  /** 获取用户信息 */
+  async getUserInfo() { 
+    const { ctx, app } = this;
+    const token = ctx.request.header.authorization;
+    const decode = await app.jwt.verify(token, app.config.jwt.secret);
+    const userInfo = await ctx.service.user.getUserByName(decode.username);
+    ctx.body = {
+      code: 0,
+      message: null,
+      data: {
+        id: userInfo.id,
+        username: userInfo.username,
+        signature: userInfo.signature || '',
+        avatar: userInfo.avatar || defaultAvatar
+      }
+    }
+  }
+
+  /** 编辑用户 */
+  async editUserInfo() { 
+    const { ctx, app } = this;
+    const { signature = '', avatar = defaultAvatar} = ctx.request.body;
+    try {
+      console.log(signature, 'signature-----')
+      let user_id
+      const token = ctx.request.header.authorization;
+      const decode = await app.jwt.verify(token, app.config.jwt.secret);
+      user_id = decode.id;
+      let userInfo = await ctx.service.user.getUserByName(decode.username);
+      const params = {
+        ...userInfo,
+        signature,
+        avatar
+      }
+      delete params.password
+      delete params.username
+      let reult = await ctx.service.user.updateUserInfo(params);
+      ctx.body = {
+        code: 0,
+        data: null,
+        message: null
+      }
+    } catch (err) {
+      ctx.body = {
+        code: 9999,
+        data: null,
+        message: '更新失败'
+      }
+    }
+  }
 }
 
 module.exports = UserController

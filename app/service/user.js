@@ -6,7 +6,6 @@ class UserService extends Service {
   async getUserByName(username) { 
     const { app } = this;
     try {
-      console.log(username, '---username')
       const result = await app.mysql.get('user', { username });
       return result
     } catch (err) { 
@@ -22,6 +21,23 @@ class UserService extends Service {
       const result = await app.mysql.insert('user', userInfo);
       return result
     } catch (err) { 
+      return null
+    }
+  }
+
+  /** 编辑用户 */
+  async updateUserInfo(params) { 
+    const { app } = this;
+    try { 
+      let result = await app.mysql.update('user', {
+        ...params
+      }, {
+        id: params.id
+      })
+      console.log(result, 'result-------')
+      return result
+    }
+    catch (err) { 
       return null
     }
   }
